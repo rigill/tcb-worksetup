@@ -23,9 +23,28 @@
           [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"
           [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
       when: test_nvm.stdout == "0"
-    - name: Install Dunelm-Web
+    - name: Clone Dunelm-Web
       ansible.builtin.git:
         repo: git@gitlab.com:dunelm/product/frontend/dunelm-web.git
         dest: ~/Work/dunelm-web/
       tags:
       - web
+    - name: Install Dunelm-Web
+      shell: |
+        cd ~/Work/dunelm-web/
+        yarn bootstrap
+      tags:
+      - web
+    - name: Clone Settlement
+      ansible.builtin.git:
+        repo:
+          git@gitlab.com:dunelm/product/backend-services/settlement-service-aws-stacks.git
+        dest: ~/Work/settlement-service-aws-stacks/
+      tags:
+      - web
+    - name: Install Settlement
+      shell: |
+        cd ~/Work/settlement-service-aws-stacks/
+        yarn bootstrap
+      tags:
+      - settlement
