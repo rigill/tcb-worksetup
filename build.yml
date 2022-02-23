@@ -49,45 +49,7 @@
       tags:
         - node
 
-    - name: Check Docker is installed
-      local_action: stat path=/Applications/Docker.app
-      register: docker_exists
-      tags:
-        - docker
-
-    - name: Make tmp dir
-      ansible.builtin.command: mkdir -p ./tmp/
-      when: docker_exists.stat.exists == False
-      tags:
-        - docker
-
-    - name: Download Docker DMG
-      get_url: url=https://desktop.docker.com/mac/main/arm64/Docker.dmg?utm_source=docker&utm_medium=webreferral&utm_campaign=dd-smartbutton&utm_location=header dest=./tmp/Docker.dmg
-      when: docker_exists.stat.exists == False
-      tags:
-        - docker
-
-    - name: Install Docker APP
-      command: hdiutil attach ./tmp/Docker.dmg -nobrowse -mountpoint ./tmp/Docker
-      when: docker_exists.stat.exists == False
-      tags:
-        - docker
-
-    - name: Copy Docker APP
-      shell: cp -aR ./tmp/Docker/*.app /Applications/Docker.app
-      when: docker_exists.stat.exists == False
-      tags:
-        - docker
-
-    - name: Cleanup Docker
-      command: hdiutil detach ./tmp/Docker/
-      when: docker_exists.stat.exists == False
-      tags:
-        - docker
-
-    - name: Cleanup Docker
-      command: rm -R ./tmp/
-      when: docker_exists.stat.exists == False
+    - include: tasks/dmg-install.yml appName=Docker dmgURL=https://desktop.docker.com/mac/main/arm64/Docker.dmg?utm_source=docker&utm_medium=webreferral&utm_campaign=dd-smartbutton&utm_location=header
       tags:
         - docker
 
