@@ -1,0 +1,15 @@
+- name: Clone Store Locator App
+  ansible.builtin.git:
+    repo: git@gitlab.com:dunelm/product/frontend/store-locator-app.git
+    dest: "{{ projects_directory }}/store-locator-app/"
+    update: no
+    accept_hostkey: true
+  tags:
+    - sla
+
+- name: Install Store Locator App packages
+  ansible.builtin.shell: yarn bootstrap
+  args:
+    chdir: '{{ projects_directory }}/store-locator-app/'
+  tags:
+    - sla

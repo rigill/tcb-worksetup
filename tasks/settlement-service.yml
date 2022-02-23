@@ -1,0 +1,15 @@
+- name: Clone Settlement Service
+  ansible.builtin.git:
+    repo: git@gitlab.com:dunelm/product/backend-services/settlement-service-aws-stacks.git
+    dest: "{{ projects_directory }}/settlement-service-aws-stacks/"
+    update: no
+    accept_hostkey: true
+  tags:
+    - ss repos backend
+
+- name: Install Settlment Service packages
+  ansible.builtin.shell: yarn bootstrap
+  args:
+    chdir: '{{ projects_directory }}/settlement-service-aws-stacks/'
+  tags:
+    - ss repos backend

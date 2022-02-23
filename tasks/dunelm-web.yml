@@ -1,0 +1,15 @@
+- name: Clone Dunelm.com
+  ansible.builtin.git:
+    repo: git@gitlab.com:dunelm/product/frontend/dunelm-web.git
+    dest: "{{ projects_directory }}/dunelm-web/"
+    update: no
+    accept_hostkey: true
+  tags:
+    - dcom
+
+- name: Install Dunelm.com packages
+  ansible.builtin.shell: yarn bootstrap
+  args:
+    chdir: '{{ projects_directory }}/dunelm-web/'
+  tags:
+    - dcom

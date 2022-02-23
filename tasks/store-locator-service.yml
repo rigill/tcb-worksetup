@@ -1,0 +1,15 @@
+- name: Clone Store Locator Service
+  ansible.builtin.git:
+    repo: git@gitlab.com:dunelm/product/backend-services/storelocator-service-aws-stacks.git
+    dest: "{{ projects_directory }}/storelocator-service-aws-stacks/"
+    update: no
+    accept_hostkey: true
+  tags:
+    - sls
+
+- name: Install Store Locator Service packages
+  ansible.builtin.shell: yarn bootstrap
+  args:
+    chdir: '{{ projects_directory }}/storelocator-service-aws-stacks/'
+  tags:
+    - sls

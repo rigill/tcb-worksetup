@@ -34,6 +34,7 @@
 - Might look into this in the future
 - https://docs.gitlab.com/ee/api/users.html#create-a-personal-access-token
 - https://docs.gitlab.com/ee/api/users.html#add-ssh-key-for-user
+- also look into seeing if there is a way to check if ssh is setup
 
 ## Docker
 - [4] for arm need to fetch docker from site, otherwise install via brew ( this will need some work )
@@ -46,5 +47,6 @@
 
 ## Ansible queries
 - [1] Can we have optionally selected tasks
+- [1.1] NPM_TOKEN || ssh aren't set then just fail
 - [2] Tags for uninstalling possibly
 - [7] How to structure multiple repos, thinking to put each repo into it's only file

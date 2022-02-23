@@ -1,19 +1,30 @@
 - hosts: localhost
   become: false
+  vars:
+    projects_directory: ~/Work
   tasks:
     - name: Install Oh My Zsh
       shell: |
         if [ ! -d ~/.oh-my-zsh ]; then
           curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
         fi
+      tags:
+        - zsh
+
     - name: Install NVM
       homebrew: name=nvm
+      tags:
+        - node
+
     - name: Test for NVM installation
       shell: |
         if [ -z ${NVM_DIR+x} ]; then
           true
         fi
       register: test_nvm
+      tags:
+        - node
+
     - name: Adding NVM to path
       lineinfile:
         path: ~/.zshrc
@@ -23,28 +34,33 @@
           [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"
           [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
       when: test_nvm.stdout == "0"
-    - name: Clone Dunelm-Web
-      ansible.builtin.git:
-        repo: git@gitlab.com:dunelm/product/frontend/dunelm-web.git
-        dest: ~/Work/dunelm-web/
       tags:
-      - web
-    - name: Install Dunelm-Web
-      shell: |
-        cd ~/Work/dunelm-web/
-        yarn bootstrap
+        - node
+
+    - name: Install Yarn
+      homebrew: name=yarn
       tags:
-      - web
-    - name: Clone Settlement
-      ansible.builtin.git:
-        repo:
-          git@gitlab.com:dunelm/product/backend-services/settlement-service-aws-stacks.git
-        dest: ~/Work/settlement-service-aws-stacks/
+        - node
+
+    - name: Install Docker
+      homebrew_cask: name=docker
       tags:
-      - web
-    - name: Install Settlement
-      shell: |
-        cd ~/Work/settlement-service-aws-stacks/
-        yarn bootstrap
+        - docker
+
+    - name: Homebrew tap aws/tap
+      homebrew_tap:
+        name: aws/tap
       tags:
-      - settlement
+        - sam
+
+    - name: Install SAM Cli
+      homebrew: name=aws-sam-cli
+      tags:
+        - sam
+
+    - include: tasks/dunelm-web.yml
+    - include: tasks/settlement-service.yml
+    - include: tasks/basket-service.yml
+    - include: tasks/store-locator.yml
+    - include: tasks/store-locator-service.yml
+    - include: tasks/payment-service.yml

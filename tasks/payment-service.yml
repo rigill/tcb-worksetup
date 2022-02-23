@@ -1,0 +1,15 @@
+- name: Clone Payment Service
+  ansible.builtin.git:
+    repo: git@gitlab.com:dunelm/product/backend-services/payment-service-aws-stacks.git
+    dest: "{{ projects_directory }}/payment-service-aws-stacks/"
+    update: no
+    accept_hostkey: true
+  tags:
+    - ps
+
+- name: Install Payment Service packages
+  ansible.builtin.shell: yarn bootstrap
+  args:
+    chdir: '{{ projects_directory }}/payment-service-aws-stacks/'
+  tags:
+    - ps
