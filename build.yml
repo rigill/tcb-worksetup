@@ -11,6 +11,13 @@
       tags:
         - zsh
 
+    - name: Update Homebrew
+      community.general.homebrew:
+        update_homebrew: yes
+        upgrade_all: yes
+      tags:
+        - homebrew
+
     - name: Install NVM
       homebrew: name=nvm
       tags:

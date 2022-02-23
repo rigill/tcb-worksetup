@@ -8,8 +8,7 @@
     - sla
 
 - name: Install Store Locator App packages
-  ansible.builtin.shell: yarn bootstrap
-  args:
-    chdir: '{{ projects_directory }}/store-locator-app/'
+  community.general.yarn:
+    path: '{{ projects_directory }}/store-locator-app/'
   tags:
     - sla
