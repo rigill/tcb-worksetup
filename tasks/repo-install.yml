@@ -1,0 +1,20 @@
+- name: 'Clone {{ name }}'
+  ansible.builtin.git:
+    repo: '{{ repo }}'
+    dest: '{{ projects_directory }}/{{ name }}/'
+    update: no
+    accept_hostkey: true
+
+- name: 'Setup'
+  block:
+    - name: 'Bootstrap {{ name }}'
+      ansible.builtin.shell: yarn bootstrap
+      args:
+        chdir: '{{ projects_directory }}/{{ name }}/'
+  rescue:
+    - name: 'Catch'
+      ansible.builtin.debug:
+        msg: 'yarn bootstrap failed attempting yarn install'
+    - name: 'Install {{ name }}'
+      community.general.yarn:
+        path: '{{ projects_directory }}/{{ name }}/'

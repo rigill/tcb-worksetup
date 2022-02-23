@@ -64,9 +64,26 @@
       tags:
         - sam
 
-    - include: tasks/dunelm-web.yml
-    - include: tasks/settlement-service.yml
-    - include: tasks/basket-service.yml
-    - include: tasks/store-locator.yml
-    - include: tasks/store-locator-service.yml
-    - include: tasks/payment-service.yml
+    - include: tasks/repo-install.yml name=dunelm-web repo=git@gitlab.com:dunelm/product/frontend/dunelm-web.git
+      tags:
+        - frontend
+
+    - include: tasks/repo-install.yml name=store-locator-app repo=git@gitlab.com:dunelm/product/frontend/store-locator-app.git
+      tags:
+        - frontend
+
+    - include: tasks/repo-install.yml name=settlement-service-aws-stacks repo=git@gitlab.com:dunelm/product/backend-services/settlement-service-aws-stacks.git
+      tags:
+        - backend
+
+    - include: tasks/repo-install.yml name=basket-service-aws-stacks repo=git@gitlab.com:dunelm/product/backend-services/basket-service-aws-stacks.git
+      tags:
+        - backend
+
+    - include: tasks/repo-install.yml name=storelocator-service-aws-stacks repo=git@gitlab.com:dunelm/product/backend-services/storelocator-service-aws-stacks.git
+      tags:
+        - backend
+
+    - include: tasks/repo-install.yml name=payment-service-aws-stacks repo=git@gitlab.com:dunelm/product/backend-services/payment-service-aws-stacks.git
+      tags:
+        - backend
