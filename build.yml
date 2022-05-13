@@ -18,10 +18,6 @@
       tags:
         - homebrew
 
-    - name: Install NVM
-      homebrew: name=nvm
-      tags:
-        - node
 
     - name: Test for NVM installation
       shell: |
@@ -29,6 +25,12 @@
           true
         fi
       register: test_nvm
+      tags:
+        - node
+
+    - name: Install NVM
+      homebrew: name=nvm
+      when: test_nvm.stdout == "0"
       tags:
         - node
 

@@ -50,3 +50,11 @@
 - [1.1] NPM_TOKEN || ssh aren't set then just fail
 - [2] Tags for uninstalling possibly
 - [7] How to structure multiple repos, thinking to put each repo into it's only file
+-
+
+# TODO
+
+## Insomnia
+- look into installing and importing insomnia files
+
+## Update everything with readmes
